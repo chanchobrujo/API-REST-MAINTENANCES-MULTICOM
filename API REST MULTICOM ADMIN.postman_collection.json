@@ -1,0 +1,83 @@
+{
+	"info": {
+		"_postman_id": "55daac61-63a2-4740-b72d-d99d53747d90",
+		"name": "API REST MULTICOM ADMIN",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "AUTH",
+			"item": [
+				{
+					"name": "SignIn",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJwcmltYXBwNkBnbWFpbC5jb20iLCJpYXQiOjE2MjQxMTczMzAsImV4cCI6MTYyNDEyMDkzMH0.PeIN0sgzWO6w_g5qWE8HZ5tIiCSrpAeZ6xtLNx0pESP_DbwMDh4-YMiGZV3Nlnj7LJJDMPSa_i9c233wYlzqiQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"umb.kevsidorov@gmail.com\",\n    \"password\": \"123456\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/auth/users",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"auth",
+								"users"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "PROFILE",
+			"item": [
+				{
+					"name": "Recover password",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": null
+					},
+					"response": []
+				},
+				{
+					"name": "Change password",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": null
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "CLIENTS",
+			"item": []
+		},
+		{
+			"name": "USERS",
+			"item": []
+		}
+	]
+}
