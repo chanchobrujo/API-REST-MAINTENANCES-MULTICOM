@@ -1,7 +1,8 @@
 package com.proyectoIntegrador.MultiCom;
 
 import com.proyectoIntegrador.MultiCom.jwt.JwtEntryPoint; 
-import com.proyectoIntegrador.MultiCom.jwt.JwtTokenFilter; 
+import com.proyectoIntegrador.MultiCom.jwt.JwtTokenFilter;
+import com.proyectoIntegrador.MultiCom.logic.myFuntions;
 import com.proyectoIntegrador.MultiCom.service.UserDetailsServiceImpl;
 
 import org.springframework.boot.SpringApplication;
@@ -68,7 +69,7 @@ public class MultiComApplication  extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/**").permitAll()
                 .anyRequest().authenticated()
-                .and()
+                .and() //
                 .exceptionHandling().authenticationEntryPoint(jwtEntryPoint)
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
@@ -79,7 +80,8 @@ public class MultiComApplication  extends WebSecurityConfigurerAdapter {
 		SpringApplication.run(MultiComApplication.class, args);   
 		System.out.println("\n----          ----"); 
 		System.out.println("-OPEN SERVER 8080-"); 
-		System.out.println("----          ----\n");   
+		System.out.println("----          ----\n");  
+		myFuntions.expirationReservation("", "");
 	}
 
 }

@@ -32,7 +32,7 @@ public class ReservationController {
 	@PreAuthorize("hasRole('ROLE_MOD') or hasRole('ROLE_ADMIN')")
 	@GetMapping("/")
 	public ResponseEntity<?> list() {
-		List<Reserva> list = reservaService.list();
+		List<Reserva> list = reservaService.list();  
 		return new ResponseEntity<List<Reserva>>(list, HttpStatus.OK);
 	}
 
@@ -49,7 +49,7 @@ public class ReservationController {
 				return new ResponseEntity<Object>(new _Message("La hora inicial debe ser menor a la final."),
 						HttpStatus.BAD_REQUEST);
 
-			if (!reservaService.getByFecha(reservaDto.getFecha(), reservaDto.getHoraInicio(), reservaDto.getHoraFin()))
+			if (reservaService.getByFecha(reservaDto.getFecha(), reservaDto.getHoraInicio(), reservaDto.getHoraFin()))
 				return new ResponseEntity<Object>(new _Message("Hay cruce de horarios."), HttpStatus.BAD_REQUEST);
 
 			if (reservaDto.getClientes().size() == 0)
@@ -86,7 +86,7 @@ public class ReservationController {
 				return new ResponseEntity<Object>(new _Message("La hora inicial debe ser menor a la final."),
 						HttpStatus.BAD_REQUEST);
 
-			if (!reservaService.getByFecha(reservaDto.getFecha(), reservaDto.getHoraInicio(), reservaDto.getHoraFin()))
+			if (reservaService.getByFecha(reservaDto.getFecha(), reservaDto.getHoraInicio(), reservaDto.getHoraFin()))
 				return new ResponseEntity<Object>(new _Message("Hay cruce de horarios."), HttpStatus.BAD_REQUEST);
 
 			Reserva reserva = new Reserva(reservaDto.getFecha(), reservaDto.getHoraInicio(), reservaDto.getHoraFin(),

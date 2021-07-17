@@ -10,6 +10,6 @@ import org.springframework.web.bind.annotation.*;
 public class infoController {
 	@GetMapping("")
 	public ResponseEntity<?> info(){
-		return new ResponseEntity<String>("API Rest MULTICOM, protected data.", HttpStatus.ACCEPTED);
+		return new ResponseEntity<String>("Api Rest Multicom, protected data.", HttpStatus.ACCEPTED);
 	}
 }

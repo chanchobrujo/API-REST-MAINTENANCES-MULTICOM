@@ -8,10 +8,10 @@ public class Cliente {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id; 
     
-	@Column(name="nombre", length = 50, unique = true, nullable = false) 
+	@Column(name="nombre", length = 50, unique = false, nullable = false) 
     private String nombre;
 
-	@Column(name="apellido", length = 50, unique = true, nullable = false)
+	@Column(name="apellido", length = 50, unique = false, nullable = false)
     private String apellido;
 
     @Column(name="numero", length = 50, unique = true )

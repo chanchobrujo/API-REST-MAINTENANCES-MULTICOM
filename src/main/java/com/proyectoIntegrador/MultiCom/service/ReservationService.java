@@ -1,11 +1,13 @@
 package com.proyectoIntegrador.MultiCom.service;
 
+import com.proyectoIntegrador.MultiCom.logic.myFuntions;
 import com.proyectoIntegrador.MultiCom.model.*;
 import com.proyectoIntegrador.MultiCom.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.*;
 import java.util.*;
 
 @Service
@@ -24,19 +26,19 @@ public class ReservationService {
 
 	public void save(Reserva reserva) {
 		reservaRepository.save(reserva);
-	}
+	}  
 
-	public boolean getByFecha(String fecha, String hora1, String hora2) {  
+	public boolean getByFecha(String fecha, String hora1, String hora2) {
 		List<Reserva> lista1 = reservaRepository.findAll();
+		Boolean value = false;
 
 		for (int i = 0; i < lista1.size(); i++) {
 			Reserva obj = (Reserva) lista1.get(i);
 			if (obj.getFecha().equals(fecha) && !obj.getEstado().equals("Cita cancelada."))
-				if (obj.getHoraInicio().equals(hora1) || obj.getHoraFin().equals(hora2))
-					return false;
+				value = myFuntions.verifyCross(fecha, obj.getHoraInicio(), obj.getHoraFin(), hora1, hora2);
 		}
 
-		return true;
+		return value;
 	}
 
 	public Optional<Reserva> getByHoraInicio(String horaInicio) {
