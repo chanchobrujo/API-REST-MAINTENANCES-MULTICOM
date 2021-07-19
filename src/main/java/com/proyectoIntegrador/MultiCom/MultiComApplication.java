@@ -80,8 +80,7 @@ public class MultiComApplication  extends WebSecurityConfigurerAdapter {
 		SpringApplication.run(MultiComApplication.class, args);   
 		System.out.println("\n----          ----"); 
 		System.out.println("-OPEN SERVER 8080-"); 
-		System.out.println("----          ----\n");  
-		myFuntions.expirationReservation("", "");
+		System.out.println("----          ----\n");     
 	}
 
 }

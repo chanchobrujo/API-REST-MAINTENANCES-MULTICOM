@@ -21,12 +21,46 @@ public class ReservationService {
 	UserService usuarioService;
 
 	public List<Reserva> list() {
-		return reservaRepository.findAll();
+		List<Reserva> lista = reservaRepository.findAll();
+
+		lista.sort(new Comparator<Reserva>() {
+			@Override
+			public int compare(Reserva o1, Reserva o2) {
+				try {
+					SimpleDateFormat formatoHora = new  SimpleDateFormat ("hh:mm");
+					Date horaInicioA = formatoHora.parse(o1.getHoraInicio());
+					Date horaInicioB = formatoHora.parse(o2.getHoraInicio());
+
+					return horaInicioA.compareTo(horaInicioB);
+				} catch (Exception e) {
+					return -1;
+				}
+
+			}
+		}); 
+
+		lista.sort(new Comparator<Reserva>() {
+			@Override
+			public int compare(Reserva o1, Reserva o2) {
+				try {
+					SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+					Date fecha1 = formato.parse(o1.getFecha());
+					Date fecha2 = formato.parse(o2.getFecha());
+
+					return fecha1.compareTo(fecha2);
+				} catch (Exception e) {
+					return -1;
+				}
+
+			}
+		}); 
+
+		return lista;
 	}
 
 	public void save(Reserva reserva) {
 		reservaRepository.save(reserva);
-	}  
+	}
 
 	public boolean getByFecha(String fecha, String hora1, String hora2) {
 		List<Reserva> lista1 = reservaRepository.findAll();
@@ -63,6 +97,38 @@ public class ReservationService {
 				listaDeReservasPorClienteFilter.add(obj);
 		}
 
+		listaDeReservasPorClienteFilter.sort(new Comparator<Reserva>() {
+			@Override
+			public int compare(Reserva o1, Reserva o2) {
+				try {
+					SimpleDateFormat formatoHora = new  SimpleDateFormat ("hh:mm");
+					Date horaInicioA = formatoHora.parse(o1.getHoraInicio());
+					Date horaInicioB = formatoHora.parse(o2.getHoraInicio());
+
+					return horaInicioA.compareTo(horaInicioB);
+				} catch (Exception e) {
+					return -1;
+				}
+
+			}
+		}); 
+		
+		listaDeReservasPorClienteFilter.sort(new Comparator<Reserva>() {
+			@Override
+			public int compare(Reserva o1, Reserva o2) {
+				try {
+					SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+					Date fecha1 = formato.parse(o1.getFecha());
+					Date fecha2 = formato.parse(o2.getFecha());
+
+					return fecha1.compareTo(fecha2);
+				} catch (Exception e) {
+					return -1;
+				}
+
+			}
+		});
+
 		return listaDeReservasPorClienteFilter;
 	}
 
@@ -71,9 +137,13 @@ public class ReservationService {
 		return listaDeReservasPorClienteNC;
 	}
 
-	public List<Reserva> getByUserC(int id) {
+	public List<Reserva> getByUserC(int id) {			
 		List<Reserva> listaDeReservasPorClienteC = listReservationFilter(id, true);
 		return listaDeReservasPorClienteC;
+	}
+
+	public int getSizeByUserNC(int id) { 
+		return listReservationFilter(id, false).size();
 	}
 
 	public boolean existsByFecha(String fecha) {

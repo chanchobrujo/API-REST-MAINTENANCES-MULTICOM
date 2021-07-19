@@ -1,15 +1,21 @@
 package com.proyectoIntegrador.MultiCom.logic;
 
+import java.awt.event.ActionEvent;
 import java.math.*;
 import java.security.*; 
 import java.text.*; 
 import java.time.*;
 import java.util.*;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+
 import javax.mail.*;
 import javax.mail.internet.*; 
 
-public class myFuntions {
-	public static String viewTime(Date date) {
+public class myFuntions { 
+	static ScheduledExecutorService executor = null;
+ 	public static String viewTime(Date date) {
 		int hour = date.getHours(), minutes = date.getMinutes();
 		String hourVar = hour+"", minutesVar = minutes+""; 
 
@@ -17,19 +23,8 @@ public class myFuntions {
 		if(minutes >= 0 && minutes <=9) minutesVar = "0"+minutes;
 		
 		return hourVar+":"+minutesVar;
-	}
-		
-	public static void expirationReservation(String fecha, String hora) { 
-		Timer timer = new Timer();
-		TimerTask tt = new TimerTask() {
-			@Override  
-		    public void run() {  
-		        System.out.println("Task is on");  
-		    };  
-		};
-		timer.schedule(tt, new Date());   
-	}
-	
+	} 
+ 	
 	public static boolean verifyCross(String fecha, String horaInicio, String horaFin, String horaInicioA, String horaFinB ) { 
 		try {
 			SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd"); 
@@ -111,6 +106,20 @@ public class myFuntions {
         } catch (Exception e) {
             return 0;
         }
+    }
+    
+    public static String incrementHours(String hour, int cant) {
+    	try {
+            DateFormat dateFormat = new SimpleDateFormat ("hh:mm");
+            Date hours = dateFormat.parse( hour );
+			Calendar calendar = Calendar.getInstance();
+			calendar.add(Calendar.HOUR, cant);
+			Date fechaSalida = calendar.getTime();
+			
+    		return fechaSalida.getHours()+":"+fechaSalida.getMinutes();
+		} catch (Exception e) {
+			return "";
+		}
     }
 
     public static String generatedID() { 
