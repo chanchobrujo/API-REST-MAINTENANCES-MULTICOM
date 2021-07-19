@@ -102,6 +102,17 @@ public class ReservationController {
 	}
 
 	@PreAuthorize("hasRole('ROLE_MOD') or hasRole('ROLE_ADMIN') or hasRole('ROLE_CLIENTE')")
+	@GetMapping("/viewReservation/{id}")
+	public ResponseEntity<?> view_Reservation(@PathVariable("id") int id) {
+		try {
+			Reserva reserva = reservaService.getById(id).get();
+			return new ResponseEntity<Reserva>(reserva, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<Object>(new _Message(e.getMessage()), HttpStatus.BAD_REQUEST);
+		}
+	}
+
+	@PreAuthorize("hasRole('ROLE_MOD') or hasRole('ROLE_ADMIN') or hasRole('ROLE_CLIENTE')")
 	@GetMapping("/ByUserNC/{id}")
 	public ResponseEntity<?> listByUserNC(@PathVariable("id") int id) {
 		List<Reserva> list = reservaService.getByUserNC(id);
