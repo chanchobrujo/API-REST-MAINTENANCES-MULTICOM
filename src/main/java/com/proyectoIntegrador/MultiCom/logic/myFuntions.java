@@ -1,14 +1,10 @@
 package com.proyectoIntegrador.MultiCom.logic;
-
-import java.awt.event.ActionEvent;
+ 
 import java.math.*;
 import java.security.*; 
-import java.text.*; 
-import java.time.*;
+import java.text.*;  
 import java.util.*;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;  
 
 import javax.mail.*;
 import javax.mail.internet.*; 

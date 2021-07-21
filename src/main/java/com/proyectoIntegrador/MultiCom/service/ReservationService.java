@@ -1,6 +1,7 @@
 package com.proyectoIntegrador.MultiCom.service;
 
 import com.proyectoIntegrador.MultiCom.logic.myFuntions;
+import com.proyectoIntegrador.MultiCom.logic.myStates;
 import com.proyectoIntegrador.MultiCom.model.*;
 import com.proyectoIntegrador.MultiCom.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,7 @@ public class ReservationService {
 			@Override
 			public int compare(Reserva o1, Reserva o2) {
 				try {
-					SimpleDateFormat formatoHora = new  SimpleDateFormat ("hh:mm");
+					SimpleDateFormat formatoHora = new SimpleDateFormat("hh:mm");
 					Date horaInicioA = formatoHora.parse(o1.getHoraInicio());
 					Date horaInicioB = formatoHora.parse(o2.getHoraInicio());
 
@@ -37,7 +38,7 @@ public class ReservationService {
 				}
 
 			}
-		}); 
+		});
 
 		lista.sort(new Comparator<Reserva>() {
 			@Override
@@ -53,7 +54,7 @@ public class ReservationService {
 				}
 
 			}
-		}); 
+		});
 
 		return lista;
 	}
@@ -68,8 +69,12 @@ public class ReservationService {
 
 		for (int i = 0; i < lista1.size(); i++) {
 			Reserva obj = (Reserva) lista1.get(i);
-			if (obj.getFecha().equals(fecha) && !obj.getEstado().equals("Cita cancelada."))
-				value = myFuntions.verifyCross(fecha, obj.getHoraInicio(), obj.getHoraFin(), hora1, hora2);
+			if (obj.getFecha().equals(fecha))
+				if (obj.getEstado().equals(myStates.STATE_APPOINTMENT_ACEPTBYCLIENT)
+						&& obj.getEstado().equals(myStates.STATE_APPOINTMENT_ACEPTBYEMPLOYEE)
+						&& obj.getEstado().equals(myStates.STATE_APPOINTMENT_NEARLY_EXPIRED))
+					value = myFuntions.verifyCross(fecha, obj.getHoraInicio(), obj.getHoraFin(), hora1, hora2);
+
 		}
 
 		return value;
@@ -87,13 +92,13 @@ public class ReservationService {
 		return reservaRepository.findById(id);
 	}
 
-	public List<Reserva> listReservationFilter(int id, boolean filter) {
+	public List<Reserva> listReservationFilter(int id, String state) {
 		List<Reserva> listaDeReservasPorCliente = reservaRepository.findByUsuario(usuarioService.getById(id).get());
 		List<Reserva> listaDeReservasPorClienteFilter = new ArrayList<Reserva>();
 
 		for (int i = 0; i < listaDeReservasPorCliente.size(); i++) {
 			Reserva obj = (Reserva) reservaRepository.findByUsuario(usuarioService.getById(id).get()).get(i);
-			if (obj.getEstado().equals("Cita cancelada.") == filter)
+			if (obj.getEstado().equals(state))
 				listaDeReservasPorClienteFilter.add(obj);
 		}
 
@@ -101,7 +106,7 @@ public class ReservationService {
 			@Override
 			public int compare(Reserva o1, Reserva o2) {
 				try {
-					SimpleDateFormat formatoHora = new  SimpleDateFormat ("hh:mm");
+					SimpleDateFormat formatoHora = new SimpleDateFormat("hh:mm");
 					Date horaInicioA = formatoHora.parse(o1.getHoraInicio());
 					Date horaInicioB = formatoHora.parse(o2.getHoraInicio());
 
@@ -111,8 +116,8 @@ public class ReservationService {
 				}
 
 			}
-		}); 
-		
+		});
+
 		listaDeReservasPorClienteFilter.sort(new Comparator<Reserva>() {
 			@Override
 			public int compare(Reserva o1, Reserva o2) {
@@ -133,17 +138,22 @@ public class ReservationService {
 	}
 
 	public List<Reserva> getByUserNC(int id) {
-		List<Reserva> listaDeReservasPorClienteNC = listReservationFilter(id, false);
-		return listaDeReservasPorClienteNC;
+		List<Reserva> listaA = listReservationFilter(id, myStates.STATE_APPOINTMENT_ACEPTBYCLIENT);
+		List<Reserva> listaB = listReservationFilter(id, myStates.STATE_APPOINTMENT_NEARLY_EXPIRED); 
+		listaB.addAll(listaA);
+		return listaB;
 	}
 
-	public List<Reserva> getByUserC(int id) {			
-		List<Reserva> listaDeReservasPorClienteC = listReservationFilter(id, true);
-		return listaDeReservasPorClienteC;
+	public List<Reserva> getByUserC(int id) {
+		return listReservationFilter(id, myStates.STATE_APPOINTMENT_CANCEL);
 	}
 
-	public int getSizeByUserNC(int id) { 
-		return listReservationFilter(id, false).size();
+	public List<Reserva> getByUserEX(int id) {
+		return listReservationFilter(id, myStates.STATE_APPOINTMENT_EXPIRED);
+	} 
+
+	public int getSizeByUserNC(int id) {
+		return listReservationFilter(id, myStates.STATE_APPOINTMENT_ACEPTBYCLIENT).size();
 	}
 
 	public boolean existsByFecha(String fecha) {
