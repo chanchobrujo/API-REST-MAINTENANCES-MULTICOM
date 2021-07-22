@@ -71,8 +71,8 @@ public class ReservationService {
 			Reserva obj = (Reserva) lista1.get(i);
 			if (obj.getFecha().equals(fecha))
 				if (obj.getEstado().equals(myStates.STATE_APPOINTMENT_ACEPTBYCLIENT)
-						&& obj.getEstado().equals(myStates.STATE_APPOINTMENT_ACEPTBYEMPLOYEE)
-						&& obj.getEstado().equals(myStates.STATE_APPOINTMENT_NEARLY_EXPIRED))
+						|| obj.getEstado().equals(myStates.STATE_APPOINTMENT_ACEPTBYEMPLOYEE)
+						|| obj.getEstado().equals(myStates.STATE_APPOINTMENT_NEARLY_EXPIRED))
 					value = myFuntions.verifyCross(fecha, obj.getHoraInicio(), obj.getHoraFin(), hora1, hora2);
 
 		}

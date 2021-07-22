@@ -122,7 +122,7 @@ public class ReservationController {
 
 					if (fechaString.equals(reservaDto.getFecha())) {
 						if ((myFuntions.compareTime(myFuntions.incrementHours(horaString, 1),
-								reservaDto.getHoraInicio()) == 0)) {
+								reservaDto.getHoraInicio()) >= 0)) {
 
 							changeStateReservation(reserva.getId(), myStates.STATE_APPOINTMENT_NEARLY_EXPIRED);
 							sendMail(reservaDto.getIdusuario(), myStates.STATE_APPOINTMENT_NEARLY_EXPIRED,
