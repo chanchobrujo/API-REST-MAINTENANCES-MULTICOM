@@ -1,15 +1,11 @@
 package com.proyectoIntegrador.MultiCom;
 
-import com.proyectoIntegrador.MultiCom.jwt.JwtEntryPoint; 
-import com.proyectoIntegrador.MultiCom.jwt.JwtTokenFilter;
-import com.proyectoIntegrador.MultiCom.logic.myFuntions;
-import com.proyectoIntegrador.MultiCom.service.UserDetailsServiceImpl;
+import com.proyectoIntegrador.MultiCom.security.JwtEntryPoint;
+import com.proyectoIntegrador.MultiCom.security.JwtTokenFilter;
+import com.proyectoIntegrador.MultiCom.service.user.UserDetailsServiceImpl;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
-import java.text.SimpleDateFormat;
-import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -77,10 +73,7 @@ public class MultiComApplication  extends WebSecurityConfigurerAdapter {
     }
 
 	public static void main(String[] args) {
-		SpringApplication.run(MultiComApplication.class, args);   
-		System.out.println("\n----          ----"); 
-		System.out.println("-OPEN SERVER 8080-"); 
-		System.out.println("----          ----\n");     
+		SpringApplication.run(MultiComApplication.class, args);
 	}
 
 }
