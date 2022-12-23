@@ -4,8 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import org.springframework.security.core.Authentication;
-import com.proyectoIntegrador.MultiCom.model.dto.UserPrincipal;
 import com.proyectoIntegrador.MultiCom.constants.TokenProperties;
 
 import java.util.Date;
@@ -16,22 +14,21 @@ import static io.jsonwebtoken.SignatureAlgorithm.HS512;
 
 @Component
 @RequiredArgsConstructor
-public class ProviderSecurity {
-    private final static Logger logger = LoggerFactory.getLogger(ProviderSecurity.class);
+public class TokenProviderSecurity {
+    private final static Logger logger = LoggerFactory.getLogger(TokenProviderSecurity.class);
 
     private final TokenProperties properties;
 
-    public String generateToken(Authentication authentication){
+    public String generateToken(String email){
         Date now = new Date();
-        UserPrincipal user = (UserPrincipal) authentication.getPrincipal();
-        return builder().setSubject(user.getUsername())
+        return builder().setSubject(email)
                 .setIssuedAt(now)
                 .setExpiration(new Date(now.getTime() + (this.properties.getExpiration() * 1000L)))
                 .signWith(HS512, this.properties.getSecret())
                 .compact();
     }
 
-    public String getNombreUsuarioFromToken(String token){
+    public String getValueDecrypt(String token){
         return parser().setSigningKey(this.properties.getSecret()).parseClaimsJws(token).getBody().getSubject();
     }
 
