@@ -1,10 +1,8 @@
 package com.proyectoIntegrador.MultiCom.security;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import com.proyectoIntegrador.MultiCom.constants.TokenProperties;
+import com.proyectoIntegrador.MultiCom.constants.properties.TokenProperties;
 
 import java.util.Date;
 import io.jsonwebtoken.*;
@@ -15,7 +13,6 @@ import static io.jsonwebtoken.SignatureAlgorithm.HS512;
 @Component
 @RequiredArgsConstructor
 public class TokenProviderSecurity {
-    private final static Logger logger = LoggerFactory.getLogger(TokenProviderSecurity.class);
 
     private final TokenProperties properties;
 
@@ -37,8 +34,7 @@ public class TokenProviderSecurity {
             parser().setSigningKey(this.properties.getSecret()).parseClaimsJws(token);
             return true;
         }catch (MalformedJwtException | UnsupportedJwtException | ExpiredJwtException | IllegalArgumentException | SignatureException e){
-            logger.error(e.getMessage());
+            return false;
         }
-        return false;
     }
 }

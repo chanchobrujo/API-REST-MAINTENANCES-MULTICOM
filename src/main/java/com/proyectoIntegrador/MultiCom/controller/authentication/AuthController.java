@@ -16,7 +16,7 @@ public class AuthController {
 
 	private final AuthService service;
 
-	@PostMapping("register")
+	@PostMapping("register-customer")
 	public ResponseEntity<MessageResponse> register(@Valid @RequestBody SingUpRequest request) {
 		return ResponseEntity.ok(this.service.registerForCustomer(request));
 	}
