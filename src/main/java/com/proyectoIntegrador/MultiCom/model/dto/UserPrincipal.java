@@ -9,32 +9,21 @@ import java.util.Collection;
 import static java.util.Collections.singleton;
 
 public class UserPrincipal implements UserDetails {
-	private String id;
-	private String nombre;
-    private String apellido;
-    private String numero;
     private String email;
-    private String contrasena; 
-    private Boolean estado;
+    private String password;
     
     private Collection<? extends GrantedAuthority> authorities;
 
     public
-    UserPrincipal (String id, String nombre, String apellido, String numero, String email, String contrasena, Boolean estado, Collection<? extends GrantedAuthority> authorities ){
-        this.nombre = nombre;
-        this.id = id;
-        this.apellido = apellido;
-        this.numero = numero;
-        this.estado = estado;
+    UserPrincipal (String email, String password, Collection<? extends GrantedAuthority> authorities ){
         this.authorities = authorities;
+        this.password = password;
         this.email = email;
-        this.contrasena = contrasena;
     } 
 
     public static
     UserPrincipal build(User user){
-        return new UserPrincipal(user.getId(), user.getFirstName(), user.getLastName(), user.getNumberPhone(), user.getEmail(), user.getPassword(),
-                user.getState(), singleton(new SimpleGrantedAuthority(user.getIdRole().getName())));
+        return new UserPrincipal(user.getEmail(), user.getPassword(), singleton(new SimpleGrantedAuthority(user.getIdRole().getName())));
     }
     
     @Override
@@ -49,7 +38,7 @@ public class UserPrincipal implements UserDetails {
 
     @Override
     public String getPassword() {
-        return contrasena;
+        return password;
     }
 
     @Override
@@ -70,25 +59,5 @@ public class UserPrincipal implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
-    }
-    
-    public String getId() {
-		return id;
-	} 
-
-	public String getNombre() {
-        return nombre;
-    } 
-
-    public String getApellido() {
-        return apellido;
-    }
-
-    public String getNumero() {
-        return numero;
-    }
-
-    public Boolean getEstado() {
-        return estado;
     }
 }

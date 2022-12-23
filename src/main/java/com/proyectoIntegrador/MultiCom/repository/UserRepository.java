@@ -9,8 +9,8 @@ import java.util.Optional;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer> {
-    //@Query(value = "ssss", nativeQuery = true)
-    //Optional<User> findByVerifyCustomer(String email);
+    @Query(value = "SELECT * FROM user WHERE number_phone=?1 or email=?2", nativeQuery = true)
+    Optional<User> findByVerifyEmailNumberCustomer(String numberPhone, String email);
     Optional<User> findByEmail(String email);
     Optional<User> findById(int id);
     boolean existsById(int id);
