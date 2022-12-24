@@ -1,6 +1,7 @@
 package com.proyectoIntegrador.MultiCom.model.dto;
 
 import com.proyectoIntegrador.MultiCom.entity.User;
+import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -8,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import static java.util.Collections.singleton;
 
+@NoArgsConstructor
 public class UserPrincipal implements UserDetails {
     private String email;
     private String password;
@@ -19,7 +21,7 @@ public class UserPrincipal implements UserDetails {
         this.authorities = authorities;
         this.password = password;
         this.email = email;
-    } 
+    }
 
     public static
     UserPrincipal build(User user){

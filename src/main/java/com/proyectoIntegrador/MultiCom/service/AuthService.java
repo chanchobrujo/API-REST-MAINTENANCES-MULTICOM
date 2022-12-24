@@ -20,12 +20,16 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 
+import java.util.Optional;
+
 import static org.springframework.security.core.context.SecurityContextHolder.getContext;
 
 @Service
 @RequiredArgsConstructor
 public
 class AuthService {
+
+    private final MailSenderService mailSenderService;
     private final RoleRepository roleRepository;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
@@ -33,18 +37,17 @@ class AuthService {
     private final AuthenticationManager authenticationManager;
 
     public MessageResponse registerForCustomer(SingUpRequest request) {
-        this.userRepository.findByEmail(request.getEmail()).ifPresent(customer -> {
-            throw new BusinessException("Correo ya registrado");
-        });
         MessageResponse response = new MessageResponse("Usuario registrado correctamente.");
-        try {
-            String password = this.passwordEncoder.encode(request.getPassword());
-            Role role = this.roleRepository.findByName(RoleName.ROLE_CUSTOMER).orElseThrow(() -> new BusinessException("Error"));
-            User customer = new User(request.getName(), request.getSurname(), request.getNumber(), request.getEmail(), role, password);
-            BusinessService.sendMail(customer.getEmail(), "Bienvenido a MULTICOM", "Hola es un gusto que formes parte de nuestra empresa.");
-            this.userRepository.save(customer);
-        } catch (Exception e) {
-            response.setMensaje(e.getMessage());
+        Optional<User> verifyContact = this.userRepository.findByEmailOrNumberPhone(request.getEmail(), request.getNumber());
+        Optional<User> verifyDocument = this.userRepository.findByDocumentNumberAndDocumentType(request.getDocumentNumber(), request.getDocument());
+
+        if (verifyContact.isPresent() || verifyDocument.isPresent()) {
+            response.setMensaje("Datos repetidos");
+        } else {
+            Role role = this.roleRepository.findByName(RoleName.ROLE_CUSTOMER.name()).orElseThrow(() -> new BusinessException("Error"));
+            User user = new User(request.getName(), request.getSurname(), request.getNumber(), request.getDocument(), request.getDocumentNumber(), request.getEmail(), role, this.passwordEncoder.encode(request.getPassword()));
+            this.userRepository.save(user);
+            this.mailSenderService.sendMail(request.getEmail(), "Bienvenido a MULTICOM", "Hola es un gusto que formes parte de nuestra empresa.");
         }
         return response;
     }

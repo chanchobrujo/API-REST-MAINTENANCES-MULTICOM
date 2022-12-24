@@ -68,7 +68,9 @@ class User {
     @Column(name = "createdDate", nullable = false)
     private Instant createdDate;
 
-    public User(String firstName, String lastName, String numberPhone, String email, Role role, String password) {
+    public User(String firstName, String lastName, String numberPhone, String doc, String numberDoc, String email, Role role, String password) {
+        this.documentType = doc;
+        this.documentNumber = numberDoc;
         this.id = (String) UUID.randomUUID().toString().toUpperCase().subSequence(0, 6);
         this.firstName = firstName;
         this.lastName = lastName;

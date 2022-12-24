@@ -9,11 +9,7 @@ import java.util.Optional;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer> {
-    @Query(value = "SELECT * FROM user WHERE number_phone=?1 or email=?2", nativeQuery = true)
-    Optional<User> findByVerifyEmailNumberCustomer(String numberPhone, String email);
-    Optional<User> findByEmail(String email);
-    Optional<User> findById(int id);
-    boolean existsById(int id);
-    boolean existsByEmail(String email);
-    boolean existsByNumberPhone (String numberPhone);
+    Optional<User> findByEmail (String email);
+    Optional<User> findByEmailOrNumberPhone (String email, String numberPhone);
+    Optional<User> findByDocumentNumberAndDocumentType (String documentNumber, String documentType);
 }

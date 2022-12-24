@@ -16,8 +16,7 @@ import static com.proyectoIntegrador.MultiCom.model.dto.UserPrincipal.build;
 @RequiredArgsConstructor
 public class UserDetailPrincipalService implements UserDetailsService {
 
-    private final
-    UserRepository repository;
+    private final UserRepository repository;
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
