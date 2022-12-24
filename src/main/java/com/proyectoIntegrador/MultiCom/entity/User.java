@@ -25,6 +25,16 @@ class User {
     @Column(name = "firtsName", nullable = false, length = 50)
     private String firstName;
 
+    @Size(max = 4)
+    @NotNull
+    @Column(name = "documentType", nullable = false, length = 4)
+    private String documentType;
+
+    @Size(max = 8)
+    @NotNull
+    @Column(name = "documentNumber", nullable = false, length = 8)
+    private String documentNumber;
+
     @Size(max = 50)
     @NotNull
     @Column(name = "lastName", nullable = false, length = 50)
@@ -58,7 +68,9 @@ class User {
     @Column(name = "createdDate", nullable = false)
     private Instant createdDate;
 
-    public User(String firstName, String lastName, String numberPhone, String email, Role role, String password) {
+    public User(String firstName, String lastName, String numberPhone, String doc, String numberDoc, String email, Role role, String password) {
+        this.documentType = doc;
+        this.documentNumber = numberDoc;
         this.id = (String) UUID.randomUUID().toString().toUpperCase().subSequence(0, 6);
         this.firstName = firstName;
         this.lastName = lastName;

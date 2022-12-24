@@ -1,4 +1,4 @@
-package com.proyectoIntegrador.MultiCom.constants;
+package com.proyectoIntegrador.MultiCom.constants.properties;
 
 import lombok.Data;
 

@@ -12,10 +12,14 @@ import javax.validation.constraints.*;
 public class SingUpRequest {
 	@NotNull
     private String name;
-	@NotNull
+    @NotNull
     private String surname;
+    @NotNull
+    private String document;
+    @NotNull
+    private String documentNumber;
 	@NotNull
-    @Min(value = 9)
+    @Min(value = 15)
     private String number;
 	@Email
 	@NotNull
