@@ -2,7 +2,8 @@ package com.proyectoagendador.multicom;
 
 import java.util.Optional;
 
-import com.proyectoagendador.multicom.constants.enums.RoleName;
+import com.proyectoagendador.multicom.common.constants.GeneralConstants;
+import com.proyectoagendador.multicom.common.enums.RoleNameEnum;
 import com.proyectoagendador.multicom.entity.Role;
 import com.proyectoagendador.multicom.entity.User;
 import com.proyectoagendador.multicom.exception.BusinessException;
@@ -12,8 +13,8 @@ import com.proyectoagendador.multicom.model.response.MessageResponse;
 import com.proyectoagendador.multicom.repository.RoleRepository;
 import com.proyectoagendador.multicom.repository.UserRepository;
 import com.proyectoagendador.multicom.security.TokenProviderSecurity;
-import com.proyectoagendador.multicom.service.AuthService;
-import com.proyectoagendador.multicom.service.MailSenderService;
+import com.proyectoagendador.multicom.service.authentication.AuthService;
+import com.proyectoagendador.multicom.service.authentication.MailSenderService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -66,27 +67,27 @@ class AuthServiceTest {
     void registerForCustomerExisting() {
         User user = new User(request.getName(), request.getSurname(), request.getNumber(), request.getDocument(), request.getDocumentNumber(), request.getEmail(), null, "xfg");
         when(this.userRepository.findByEmailOrNumberPhone(request.getEmail() ,request.getNumber())).thenReturn(Optional.of(user));
-        assertEquals(this.service.registerForCustomer(this.request), new MessageResponse("Datos repetidos"));
+        assertEquals(this.service.registerForCustomer(this.request), new MessageResponse(GeneralConstants.DATA_REPEATED));
     }
     @Test
     void registerForDocumentCustomerExisting() {
         User user = new User(request.getName(), request.getSurname(), request.getNumber(), request.getDocument(), request.getDocumentNumber(), request.getEmail(), null, "xfg");
         when(this.userRepository.findByDocumentNumberAndDocumentType(request.getDocumentNumber() ,request.getDocument())).thenReturn(Optional.of(user));
-        assertEquals(this.service.registerForCustomer(this.request), new MessageResponse("Datos repetidos"));
+        assertEquals(this.service.registerForCustomer(this.request), new MessageResponse(GeneralConstants.DATA_REPEATED));
     }
 
     @Test
     void registerForCustomer() {
-        Role role = new Role(RoleName.ROLE_CUSTOMER.name(), RoleName.ROLE_CUSTOMER.getValue());
+        Role role = new Role(RoleNameEnum.ROLE_CUSTOMER.name(), RoleNameEnum.ROLE_CUSTOMER.getValue());
         when(this.userRepository.findByEmailOrNumberPhone(request.getEmail() ,request.getNumber())).thenReturn(Optional.empty());
-        when(this.roleRepository.findByName(RoleName.ROLE_CUSTOMER.name())).thenReturn(Optional.of(role));
-        assertEquals(this.service.registerForCustomer(this.request), new MessageResponse("Usuario registrado correctamente."));
+        when(this.roleRepository.findByName(RoleNameEnum.ROLE_CUSTOMER.name())).thenReturn(Optional.of(role));
+        assertEquals(this.service.registerForCustomer(this.request), new MessageResponse(GeneralConstants.REGISTER_AUTH));
     }
 
     @Test
     void registerForCustomerRoleNotFound() {
         when(this.userRepository.findByEmailOrNumberPhone(request.getEmail() ,request.getNumber())).thenReturn(Optional.empty());
-        when(this.roleRepository.findByName(RoleName.ROLE_CUSTOMER.name())).thenReturn(Optional.empty());
+        when(this.roleRepository.findByName(RoleNameEnum.ROLE_CUSTOMER.name())).thenReturn(Optional.empty());
         Throwable throwable =  assertThrows(Throwable.class, () -> this.service.registerForCustomer(request));
         assertEquals(BusinessException.class, throwable.getClass());
     }

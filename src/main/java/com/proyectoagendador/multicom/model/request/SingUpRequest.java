@@ -10,19 +10,19 @@ import javax.validation.constraints.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SingUpRequest {
-	@NotNull
+    @NotEmpty
     private String name;
-    @NotNull
+    @NotEmpty
     private String surname;
-    @NotNull
+    @NotEmpty
     private String document;
-    @NotNull
+    @NotEmpty
     private String documentNumber;
-	@NotNull
+    @NotEmpty
     @Min(value = 15)
     private String number;
 	@Email
-	@NotNull
+    @NotEmpty
     private String email;
     private String password;
 }

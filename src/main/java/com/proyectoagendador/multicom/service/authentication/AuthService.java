@@ -1,6 +1,7 @@
-package com.proyectoagendador.multicom.service;
+package com.proyectoagendador.multicom.service.authentication;
 
-import com.proyectoagendador.multicom.constants.enums.RoleName;
+import com.proyectoagendador.multicom.common.constants.GeneralConstants;
+import com.proyectoagendador.multicom.common.enums.RoleNameEnum;
 import com.proyectoagendador.multicom.entity.Role;
 import com.proyectoagendador.multicom.entity.User;
 import com.proyectoagendador.multicom.exception.BusinessException;
@@ -37,14 +38,14 @@ class AuthService {
 
     public
     MessageResponse registerForCustomer(SingUpRequest request) {
-        MessageResponse response = new MessageResponse("Usuario registrado correctamente.");
+        MessageResponse response = new MessageResponse(GeneralConstants.REGISTER_AUTH);
         Optional<User> verifyContact = this.userRepository.findByEmailOrNumberPhone(request.getEmail(), request.getNumber());
         Optional<User> verifyDocument = this.userRepository.findByDocumentNumberAndDocumentType(request.getDocumentNumber(), request.getDocument());
 
         if (verifyContact.isPresent() || verifyDocument.isPresent()) {
-            response.setMensaje("Datos repetidos");
+            response.setMensaje(GeneralConstants.DATA_REPEATED);
         } else {
-            Role role = this.roleRepository.findByName(RoleName.ROLE_CUSTOMER.name()).orElseThrow(() -> new BusinessException("Error"));
+            Role role = this.roleRepository.findByName(RoleNameEnum.ROLE_CUSTOMER.name()).orElseThrow(() -> new BusinessException(GeneralConstants.GENERIC_CODE));
             User user = new User(request.getName(), request.getSurname(), request.getNumber(), request.getDocument(), request.getDocumentNumber(), request.getEmail(), role, this.passwordEncoder.encode(request.getPassword()));
             this.userRepository.save(user);
             this.mailSenderService.sendMail(request.getEmail(), "Bienvenido a MULTICOM", "Hola es un gusto que formes parte de nuestra empresa.");
@@ -54,7 +55,7 @@ class AuthService {
 
     public
     TokenResponse login(AuthRequest authRequest) {
-        String email = this.userRepository.findByEmail(authRequest.getEmail()).map(User::getEmail).orElseThrow(() -> new BusinessException("User not found"));
+        String email = this.userRepository.findByEmail(authRequest.getEmail()).map(User::getEmail).orElseThrow(() -> new BusinessException(GeneralConstants.DATA_NOT_FOUND));
         UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(authRequest.getEmail(), authRequest.getPassword());
         Authentication authentication = this.authenticationManager.authenticate(auth);
         getContext().setAuthentication(authentication);

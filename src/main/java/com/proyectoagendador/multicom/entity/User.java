@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Data
@@ -41,9 +41,9 @@ class User {
     private String lastName;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "idRole", nullable = false)
-    private Role idRole;
+    @ManyToOne
+    @JoinColumn(name = "role", nullable = false)
+    private Role role;
 
     @Size(max = 15)
     @NotNull
@@ -66,7 +66,7 @@ class User {
 
     @NotNull
     @Column(name = "createdDate", nullable = false)
-    private Instant createdDate;
+    private LocalDateTime createdDate;
 
     public User(String firstName, String lastName, String numberPhone, String doc, String numberDoc, String email, Role role, String password) {
         this.documentType = doc;
@@ -74,12 +74,12 @@ class User {
         this.id = (String) UUID.randomUUID().toString().toUpperCase().subSequence(0, 6);
         this.firstName = firstName;
         this.lastName = lastName;
-        this.idRole = role;
+        this.role = role;
         this.numberPhone = numberPhone;
         this.email = email;
         this.password = password;
         this.state = true;
-        this.createdDate = Instant.now();
+        this.createdDate = LocalDateTime.now();
     }
 
 }

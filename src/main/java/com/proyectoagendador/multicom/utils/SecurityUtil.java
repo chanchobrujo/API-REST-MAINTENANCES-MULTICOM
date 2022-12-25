@@ -1,10 +1,11 @@
-package com.proyectoagendador.multicom.constants.utils;
+package com.proyectoagendador.multicom.utils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 public
 class SecurityUtil {
+    private SecurityUtil() { }
 
     public static final String contentType = "application/json";
 

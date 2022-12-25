@@ -3,7 +3,7 @@ package com.proyectoagendador.multicom.exception;
 import java.util.Optional;
 import java.io.IOException;
 
-import com.proyectoagendador.multicom.constants.Constants;
+import com.proyectoagendador.multicom.common.constants.GeneralConstants;
 import com.proyectoagendador.multicom.model.response.ExceptionTypeResponse;
 import lombok.RequiredArgsConstructor;
 
@@ -32,7 +32,7 @@ class RestExceptionHandler extends ResponseEntityExceptionHandler {
     private
     ExceptionTypeResponse setErrorResponse(String value){
         ExceptionTypeResponse error = new ExceptionTypeResponse();
-        error.setError(Constants.GENERIC_CODE);
+        error.setError(GeneralConstants.GENERIC_CODE);
         error.setMessage(value);
         return error;
     }
@@ -42,7 +42,7 @@ class RestExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     private ResponseEntity<Object> setResponseObject(HttpStatus status) {
-        return new ResponseEntity<>(this.setErrorResponse(Constants.INCORRECT_FORMAT), status);
+        return new ResponseEntity<>(this.setErrorResponse(GeneralConstants.INCORRECT_FORMAT), status);
     }
 
     @ExceptionHandler(BusinessException.class)
@@ -63,8 +63,8 @@ class RestExceptionHandler extends ResponseEntityExceptionHandler {
         Optional<ObjectError> opError = ex.getBindingResult().getAllErrors().stream().findFirst();
         ExceptionTypeResponse error = new ExceptionTypeResponse();
 
-        error.setError(Constants.GENERIC_CODE);
-        error.setMessage(opError.isPresent() ? opError.get().getDefaultMessage() : Constants.GENERIC_CODE);
+        error.setError(GeneralConstants.GENERIC_CODE);
+        error.setMessage(opError.isPresent() ? opError.get().getDefaultMessage() : GeneralConstants.GENERIC_CODE);
 
         return new ResponseEntity<>(error, INTERNAL_SERVER_ERROR);
     }

@@ -2,10 +2,7 @@ package com.proyectoagendador.multicom.entity;
 
 import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.math.BigDecimal;
@@ -20,21 +17,26 @@ class Product {
     @Column(name = "id", nullable = false, length = 4)
     private String id;
 
-    @Size(max = 25)
-    @NotNull
-    @Column(name = "name", nullable = false, length = 25)
-    private String name;
-
     @Size(max = 255)
     @NotNull
     @Column(name = "description", nullable = false)
     private String description;
+
+    @Size(max = 25)
+    @NotNull
+    @Column(name = "name", nullable = false, length = 25)
+    private String name;
 
     @NotNull
     @Column(name = "price", nullable = false, precision = 4, scale = 2)
     private BigDecimal price;
 
     @NotNull
+    @ManyToOne
+    @JoinColumn(name = "category", nullable = false)
+    private Category category;
+
+    @NotNull
     @Column(name = "state", nullable = false)
-    private Boolean state;
+    private Boolean state = false;
 }
