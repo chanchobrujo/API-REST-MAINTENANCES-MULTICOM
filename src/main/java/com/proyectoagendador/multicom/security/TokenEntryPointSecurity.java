@@ -2,7 +2,7 @@ package com.proyectoagendador.multicom.security;
 
 import java.io.*;
 
-import com.proyectoagendador.multicom.constants.utils.SecurityUtil;
+import com.proyectoagendador.multicom.utils.SecurityUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

@@ -1,4 +1,4 @@
-package com.proyectoagendador.multicom.constants.properties;
+package com.proyectoagendador.multicom.common.properties;
 
 import lombok.Data;
 

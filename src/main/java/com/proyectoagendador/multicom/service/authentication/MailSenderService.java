@@ -1,4 +1,4 @@
-package com.proyectoagendador.multicom.service;
+package com.proyectoagendador.multicom.service.authentication;
 
 import java.util.*;
 import javax.mail.*;
@@ -9,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 
 import org.springframework.stereotype.Service;
 
-import com.proyectoagendador.multicom.constants.properties.SenderMailProperties;
+import com.proyectoagendador.multicom.common.properties.SenderMailProperties;
 
 import static javax.mail.Session.getDefaultInstance;
 

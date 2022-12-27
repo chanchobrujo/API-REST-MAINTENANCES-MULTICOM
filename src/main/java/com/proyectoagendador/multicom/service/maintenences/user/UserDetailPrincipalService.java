@@ -1,7 +1,7 @@
-package com.proyectoagendador.multicom.service.user;
+package com.proyectoagendador.multicom.service.maintenences.user;
 
 import com.proyectoagendador.multicom.exception.BusinessException;
-import com.proyectoagendador.multicom.model.dto.UserPrincipal;
+import com.proyectoagendador.multicom.mapper.UserMapper;
 import com.proyectoagendador.multicom.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 
@@ -18,6 +18,6 @@ public class UserDetailPrincipalService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        return UserPrincipal.build(this.repository.findByEmail(email).orElseThrow(() -> new BusinessException("Usuario no encotnrado.")));
+        return UserMapper.buildDetailAuth(this.repository.findByEmail(email).orElseThrow(() -> new BusinessException("Usuario no encotnrado.")));
     }
 }
