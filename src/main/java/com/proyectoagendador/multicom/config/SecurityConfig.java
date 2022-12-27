@@ -76,7 +76,11 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll();
 
         http.authorizeRequests()
-                .antMatchers("/category/register", "/category/update")
+                .antMatchers("/product/findById", "/product/findAll")
+                .permitAll();
+
+        http.authorizeRequests()
+                .antMatchers("/**/register", "/**/update")
                 .hasAnyRole("ADMIN");
 
         http.cors().and().csrf().disable()

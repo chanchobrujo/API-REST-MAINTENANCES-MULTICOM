@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Pageable;
 
 import com.proyectoagendador.multicom.entity.Category;
-import com.proyectoagendador.multicom.common.constants.GeneralConstants;
 import com.proyectoagendador.multicom.mapper.CategoryMapper;
 import com.proyectoagendador.multicom.exception.BusinessException;
 import com.proyectoagendador.multicom.common.enums.ParamTypeEnum;
@@ -16,6 +15,7 @@ import com.proyectoagendador.multicom.model.request.CategoryRequest;
 import com.proyectoagendador.multicom.repository.CategoryRepository;
 import com.proyectoagendador.multicom.model.response.MessageResponse;
 import com.proyectoagendador.multicom.model.response.CategoryResponse;
+import com.proyectoagendador.multicom.common.constants.GeneralConstants;
 
 import static java.lang.Integer.parseInt;
 import static java.util.stream.Collectors.toList;
@@ -54,7 +54,11 @@ class CategoryService {
     public CategoryResponse retrieveOne(String paramType, String value) {
         paramType = ParamTypeEnum.findByValue(paramType).getValue();
         boolean verify = paramType.equals(ParamTypeEnum.ID.getValue());
-        return verify ? this.findById(value) : this.findByName(value);
+        return verify ? CategoryMapper.mapperResponse(this.findById(parseInt(value))) : this.findByName(value);
+    }
+
+    public Category findById(Integer id) {
+        return this.repository.findById(id).orElseThrow(() -> new BusinessException(GeneralConstants.DATA_NOT_FOUND));
     }
 
     private MessageResponse save(Category category) {
@@ -64,9 +68,5 @@ class CategoryService {
 
     private CategoryResponse findByName(String name) {
         return this.repository.findByName(name).map(CategoryMapper::mapperResponse).orElseThrow(() -> new BusinessException(GeneralConstants.DATA_NOT_FOUND));
-    }
-
-    private CategoryResponse findById(String id) {
-        return this.repository.findById(parseInt(id)).map(CategoryMapper::mapperResponse).orElseThrow(() -> new BusinessException(GeneralConstants.DATA_NOT_FOUND));
     }
 }
