@@ -1,40 +1,49 @@
 package com.proyectoagendador.multicom.entity;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.persistence.*;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Data
 @Entity
 @Table(name = "product")
+@NoArgsConstructor
 public
 class Product {
     @Id
-    @Size(max = 4)
-    @Column(name = "id", nullable = false, length = 4)
+    @Column(name = "id", unique = true, nullable = false, length = 4)
     private String id;
 
-    @Size(max = 25)
-    @NotNull
-    @Column(name = "name", nullable = false, length = 25)
+    @Column(name = "name", unique = true, nullable = false, length = 25)
     private String name;
 
-    @Size(max = 255)
-    @NotNull
     @Column(name = "description", nullable = false)
     private String description;
 
-    @NotNull
-    @Column(name = "price", nullable = false, precision = 4, scale = 2)
+    @Column(name = "price", nullable = false)
     private BigDecimal price;
 
-    @NotNull
+    @ManyToOne
+    @JoinColumn(name = "category", nullable = false)
+    private Category category;
+
     @Column(name = "state", nullable = false)
     private Boolean state;
+
+    @Column(name = "createdDate", nullable = false)
+    private LocalDateTime createdDate;
+
+    public Product(String name, String description, double price, Category category){
+        this.id = (String) UUID.randomUUID().toString().toUpperCase().subSequence(0, 4);
+        this.price = BigDecimal.valueOf(price);
+        this.state = true;
+        this.name = name;
+        this.description = description;
+        this.category = category;
+        this.createdDate = LocalDateTime.now();
+    }
 }

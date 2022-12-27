@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 
 import com.proyectoagendador.multicom.security.TokenFilterSecurity;
 import com.proyectoagendador.multicom.security.CustomAccessDeniedHandler;
-import com.proyectoagendador.multicom.service.user.UserDetailPrincipalService;
+import com.proyectoagendador.multicom.service.maintenences.user.UserDetailPrincipalService;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -66,9 +66,25 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+
+        http.authorizeRequests()
+                .antMatchers("/authentication/**")
+                .permitAll();
+
+        http.authorizeRequests()
+                .antMatchers("/category/findBy/**", "/category/findAll")
+                .permitAll();
+
+        http.authorizeRequests()
+                .antMatchers("/product/findById", "/product/findAll")
+                .permitAll();
+
+        http.authorizeRequests()
+                .antMatchers("/**/register", "/**/update")
+                .hasAnyRole("ADMIN");
+
         http.cors().and().csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .exceptionHandling()

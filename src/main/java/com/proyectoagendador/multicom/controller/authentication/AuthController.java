@@ -3,7 +3,8 @@ package com.proyectoagendador.multicom.controller.authentication;
 import com.proyectoagendador.multicom.model.request.AuthRequest;
 import com.proyectoagendador.multicom.model.request.SingUpRequest;
 import com.proyectoagendador.multicom.model.response.MessageResponse;
-import com.proyectoagendador.multicom.service.AuthService;
+import com.proyectoagendador.multicom.model.response.TokenResponse;
+import com.proyectoagendador.multicom.service.authentication.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.*;
@@ -11,7 +12,7 @@ import javax.validation.Valid;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/auth/")
+@RequestMapping("/authentication/")
 public class AuthController {
 
 	private final AuthService service;
@@ -22,7 +23,7 @@ public class AuthController {
 	}
 
 	@PostMapping("")
-	public ResponseEntity<?> loginForUsers(@Valid @RequestBody AuthRequest request) {
+	public ResponseEntity<TokenResponse> loginForUsers(@Valid @RequestBody AuthRequest request) {
 		return ResponseEntity.ok(this.service.login(request));
 	}
 

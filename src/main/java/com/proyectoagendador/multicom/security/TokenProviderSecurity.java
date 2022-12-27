@@ -2,7 +2,7 @@ package com.proyectoagendador.multicom.security;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import com.proyectoagendador.multicom.constants.properties.TokenProperties;
+import com.proyectoagendador.multicom.common.properties.TokenProperties;
 
 import java.util.Date;
 import io.jsonwebtoken.*;

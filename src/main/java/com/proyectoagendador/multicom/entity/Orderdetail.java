@@ -18,12 +18,12 @@ class Orderdetail {
     private String id;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne
     @JoinColumn(name = "appointmentId", nullable = false)
     private Appointment appointment;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne
     @JoinColumn(name = "productId", nullable = false)
     private Product product;
 

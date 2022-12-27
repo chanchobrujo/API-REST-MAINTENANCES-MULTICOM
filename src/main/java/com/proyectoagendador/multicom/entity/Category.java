@@ -1,30 +1,28 @@
 package com.proyectoagendador.multicom.entity;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Data
 @Entity
-@Table(name = "payment")
+@Table(name = "category")
+@NoArgsConstructor
 public
-class Payment {
+class Category {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Integer id;
 
+    @Size(max = 22)
     @NotNull
-    @ManyToOne
-    @JoinColumn(name = "appointmentId", nullable = false)
-    private Appointment appointment;
-
-    @NotNull
-    @Column(name = "total", nullable = false, precision = 5, scale = 2)
-    private BigDecimal total;
+    @Column(name = "name", nullable = false, length = 15)
+    private String name;
 
     @Size(max = 255)
     @NotNull
@@ -34,4 +32,10 @@ class Payment {
     @NotNull
     @Column(name = "createdDate", nullable = false)
     private LocalDateTime createdDate;
+
+    public Category (String name, String description) {
+        this.name = name;
+        this.description = description;
+        this.createdDate = LocalDateTime.now();
+    }
 }

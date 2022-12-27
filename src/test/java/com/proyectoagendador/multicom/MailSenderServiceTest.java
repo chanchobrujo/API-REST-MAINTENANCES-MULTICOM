@@ -1,7 +1,7 @@
 package com.proyectoagendador.multicom;
 
-import com.proyectoagendador.multicom.constants.properties.SenderMailProperties;
-import com.proyectoagendador.multicom.service.MailSenderService;
+import com.proyectoagendador.multicom.common.properties.SenderMailProperties;
+import com.proyectoagendador.multicom.service.authentication.MailSenderService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
