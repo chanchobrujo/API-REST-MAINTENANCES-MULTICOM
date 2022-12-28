@@ -1,4 +1,4 @@
-package com.proyectoagendador.multicom.user;
+package com.proyectoagendador.multicom.service.maintenances.user;
 
 import java.util.Optional;
 
@@ -8,7 +8,6 @@ import com.proyectoagendador.multicom.entity.User;
 import com.proyectoagendador.multicom.exception.BusinessException;
 import com.proyectoagendador.multicom.model.dto.UserPrincipalDto;
 import com.proyectoagendador.multicom.repository.UserRepository;
-import com.proyectoagendador.multicom.service.maintenences.user.UserDetailPrincipalService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;

@@ -15,7 +15,7 @@ import static java.util.Collections.singleton;
 public
 class UserMapper {
 
-    public UserMapper() {}
+    private UserMapper() {}
 
     public static UserResponse buildResponse(User user) {
         Map<String, String> document = new HashMap<>();

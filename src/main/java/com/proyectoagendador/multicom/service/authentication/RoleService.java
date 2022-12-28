@@ -1,4 +1,4 @@
-package com.proyectoagendador.multicom.service.maintenences;
+package com.proyectoagendador.multicom.service.authentication;
 
 import com.proyectoagendador.multicom.entity.Role;
 import com.proyectoagendador.multicom.exception.BusinessException;

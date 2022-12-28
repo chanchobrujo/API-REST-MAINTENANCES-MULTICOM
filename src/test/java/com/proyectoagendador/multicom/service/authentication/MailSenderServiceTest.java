@@ -1,4 +1,4 @@
-package com.proyectoagendador.multicom;
+package com.proyectoagendador.multicom.service.authentication;
 
 import com.proyectoagendador.multicom.common.properties.SenderMailProperties;
 import com.proyectoagendador.multicom.service.authentication.MailSenderService;

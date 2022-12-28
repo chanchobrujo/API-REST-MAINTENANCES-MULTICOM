@@ -13,14 +13,10 @@ class SecurityUtil {
     public static final String contentType = "application/json";
 
     public static String retrieveData(String ex)   {
-        try {
-            JSONObject json = new JSONObject();
-            json.put("error", ex);
-            json.put("message", "Acceso denegado");
-            return json.toString();
-        } catch (JSONException exception) {
-            throw new RuntimeException(exception);
-        }
+        JSONObject json = new JSONObject();
+        json.put("error", ex);
+        json.put("message", "Acceso denegado");
+        return json.toString();
     }
 
     public static String getToken(String request){

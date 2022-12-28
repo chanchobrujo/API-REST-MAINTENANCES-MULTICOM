@@ -1,4 +1,4 @@
-package com.proyectoagendador.multicom.service.maintenences;
+package com.proyectoagendador.multicom.service.maintenances;
 
 import java.util.List;
 

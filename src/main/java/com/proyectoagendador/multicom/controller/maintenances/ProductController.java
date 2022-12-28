@@ -1,4 +1,4 @@
-package com.proyectoagendador.multicom.controller.maintenences;
+package com.proyectoagendador.multicom.controller.maintenances;
 
 import java.util.List;
 
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import com.proyectoagendador.multicom.model.request.ProductRequest;
 import com.proyectoagendador.multicom.model.response.MessageResponse;
 import com.proyectoagendador.multicom.model.response.ProductResponse;
-import com.proyectoagendador.multicom.service.maintenences.ProductService;
+import com.proyectoagendador.multicom.service.maintenances.ProductService;
 
 import static org.springframework.http.ResponseEntity.ok;
 

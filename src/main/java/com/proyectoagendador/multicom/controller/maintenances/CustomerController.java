@@ -1,4 +1,4 @@
-package com.proyectoagendador.multicom.controller.maintenences;
+package com.proyectoagendador.multicom.controller.maintenances;
 
 import javax.validation.Valid;
 
@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 
 import org.springframework.web.bind.annotation.*;
 
-import com.proyectoagendador.multicom.service.maintenences.CustomerService;
+import com.proyectoagendador.multicom.service.maintenances.CustomerService;
 
 import com.proyectoagendador.multicom.model.request.SingUpRequest;
 import com.proyectoagendador.multicom.model.response.MessageResponse;

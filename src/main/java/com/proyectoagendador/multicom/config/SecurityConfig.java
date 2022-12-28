@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 
 import com.proyectoagendador.multicom.security.TokenFilterSecurity;
 import com.proyectoagendador.multicom.security.CustomAccessDeniedHandler;
-import com.proyectoagendador.multicom.service.maintenences.user.UserDetailPrincipalService;
+import com.proyectoagendador.multicom.service.maintenances.user.UserDetailPrincipalService;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -11,7 +11,7 @@ import static com.proyectoagendador.multicom.utils.GeneralUtil.mapper;
 public
 class ProductMapper {
 
-    public ProductMapper() {}
+    private ProductMapper() {}
 
     public static
     ProductResponse mapperResponse(Product product) {
