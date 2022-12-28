@@ -1,18 +1,19 @@
 package com.proyectoagendador.multicom.service.authentication;
 
-import com.proyectoagendador.multicom.common.constants.GeneralConstants;
-import com.proyectoagendador.multicom.common.enums.RoleNameEnum;
+import lombok.RequiredArgsConstructor;
+
 import com.proyectoagendador.multicom.entity.Role;
 import com.proyectoagendador.multicom.entity.User;
-import com.proyectoagendador.multicom.exception.BusinessException;
+import com.proyectoagendador.multicom.repository.UserRepository;
 import com.proyectoagendador.multicom.model.request.AuthRequest;
 import com.proyectoagendador.multicom.model.request.SingUpRequest;
-import com.proyectoagendador.multicom.model.response.MessageResponse;
+import com.proyectoagendador.multicom.exception.BusinessException;
 import com.proyectoagendador.multicom.model.response.TokenResponse;
-import com.proyectoagendador.multicom.repository.RoleRepository;
-import com.proyectoagendador.multicom.repository.UserRepository;
+import com.proyectoagendador.multicom.model.response.MessageResponse;
 import com.proyectoagendador.multicom.security.TokenProviderSecurity;
-import lombok.RequiredArgsConstructor;
+import com.proyectoagendador.multicom.service.maintenences.RoleService;
+import com.proyectoagendador.multicom.common.constants.GeneralConstants;
+import com.proyectoagendador.multicom.model.response.DecryptTokenResponse;
 
 import org.springframework.stereotype.Service;
 import org.springframework.security.core.Authentication;
@@ -20,46 +21,54 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 
-import java.util.Optional;
-
+import static java.util.Objects.nonNull;
+import static java.util.Optional.ofNullable;
+import static com.proyectoagendador.multicom.utils.GeneralUtil.generatedId;
+import static com.proyectoagendador.multicom.common.enums.RoleNameEnum.ROLE_CUSTOMER;
 import static org.springframework.security.core.context.SecurityContextHolder.getContext;
 
 @Service
 @RequiredArgsConstructor
 public
 class AuthService {
-
-    private final MailSenderService mailSenderService;
-    private final RoleRepository roleRepository;
-    private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
-    private final TokenProviderSecurity tokenProviderSecurity;
+    private final RoleService service;
+    private final PasswordEncoder encoder;
+    private final MailSenderService senderMail;
+    private final TokenProviderSecurity providerToken;
     private final AuthenticationManager authenticationManager;
+    private final UserRepository repository;
+
+    public
+    DecryptTokenResponse validatedToken(String token) {
+        return new DecryptTokenResponse(this.providerToken.getValueDecrypt(token));
+    }
 
     public
     MessageResponse registerForCustomer(SingUpRequest request) {
         MessageResponse response = new MessageResponse(GeneralConstants.REGISTER_AUTH);
-        Optional<User> verifyContact = this.userRepository.findByEmailOrNumberPhone(request.getEmail(), request.getNumber());
-        Optional<User> verifyDocument = this.userRepository.findByDocumentNumberAndDocumentType(request.getDocumentNumber(), request.getDocument());
-
-        if (verifyContact.isPresent() || verifyDocument.isPresent()) {
+        boolean verifyContact = this.repository.existsByEmailOrNumberPhone(request.getEmail(), request.getNumber());
+        boolean verifyDocument = this.repository.existsByDocumentTypeAndDocumentNumber(request.getDocumentNumber(), request.getDocument());
+        if (verifyContact || verifyDocument) {
             response.setMensaje(GeneralConstants.DATA_REPEATED);
         } else {
-            Role role = this.roleRepository.findByName(RoleNameEnum.ROLE_CUSTOMER.name()).orElseThrow(() -> new BusinessException(GeneralConstants.GENERIC_CODE));
-            User user = new User(request.getName(), request.getSurname(), request.getNumber(), request.getDocument(), request.getDocumentNumber(), request.getEmail(), role, this.passwordEncoder.encode(request.getPassword()));
-            this.userRepository.save(user);
-            this.mailSenderService.sendMail(request.getEmail(), "Bienvenido a MULTICOM", "Hola es un gusto que formes parte de nuestra empresa.");
+            String genId = generatedId(8);
+            String password = this.encoder.encode( ofNullable(request.getPassword()).orElse(genId) );
+            Role role = this.service.findByName(ROLE_CUSTOMER.name());
+            User user = new User(request.getName(), request.getSurname(), request.getNumber(), request.getDocument(), request.getDocumentNumber(), request.getEmail(), role, password);
+            this.repository.save(user);
+            String message =  nonNull(request.getPassword()) ? GeneralConstants.MESSAGE_MAIL_1 : GeneralConstants.MESSAGE_MAIL_2.replace("{1}", genId);
+            this.senderMail.sendMail(request.getEmail(), GeneralConstants.TITLE_MAIL, message);
         }
         return response;
     }
 
     public
     TokenResponse login(AuthRequest authRequest) {
-        String email = this.userRepository.findByEmail(authRequest.getEmail()).map(User::getEmail).orElseThrow(() -> new BusinessException(GeneralConstants.DATA_NOT_FOUND));
+        String email = this.repository.findByEmail(authRequest.getEmail()).map(User::getEmail).orElseThrow(() -> new BusinessException(GeneralConstants.DATA_NOT_FOUND));
         UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(authRequest.getEmail(), authRequest.getPassword());
         Authentication authentication = this.authenticationManager.authenticate(auth);
         getContext().setAuthentication(authentication);
-        String token = this.tokenProviderSecurity.generateToken(email);
+        String token = this.providerToken.generateToken(email);
         return new TokenResponse(token);
     }
 }

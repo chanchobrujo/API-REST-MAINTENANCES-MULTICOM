@@ -65,28 +65,26 @@ class AuthServiceTest {
 
     @Test
     void registerForCustomerExisting() {
-        User user = new User(request.getName(), request.getSurname(), request.getNumber(), request.getDocument(), request.getDocumentNumber(), request.getEmail(), null, "xfg");
-        when(this.userRepository.findByEmailOrNumberPhone(request.getEmail() ,request.getNumber())).thenReturn(Optional.of(user));
+        when(this.userRepository.existsByEmailOrNumberPhone(request.getEmail() ,request.getNumber())).thenReturn(true);
         assertEquals(this.service.registerForCustomer(this.request), new MessageResponse(GeneralConstants.DATA_REPEATED));
     }
     @Test
     void registerForDocumentCustomerExisting() {
-        User user = new User(request.getName(), request.getSurname(), request.getNumber(), request.getDocument(), request.getDocumentNumber(), request.getEmail(), null, "xfg");
-        when(this.userRepository.findByDocumentNumberAndDocumentType(request.getDocumentNumber() ,request.getDocument())).thenReturn(Optional.of(user));
+        when(this.userRepository.existsByDocumentTypeAndDocumentNumber(request.getDocumentNumber() ,request.getDocument())).thenReturn(true);
         assertEquals(this.service.registerForCustomer(this.request), new MessageResponse(GeneralConstants.DATA_REPEATED));
     }
 
     @Test
     void registerForCustomer() {
         Role role = new Role(RoleNameEnum.ROLE_CUSTOMER.name(), RoleNameEnum.ROLE_CUSTOMER.getValue());
-        when(this.userRepository.findByEmailOrNumberPhone(request.getEmail() ,request.getNumber())).thenReturn(Optional.empty());
+        when(this.userRepository.existsByEmailOrNumberPhone(request.getEmail() ,request.getNumber())).thenReturn(false);
         when(this.roleRepository.findByName(RoleNameEnum.ROLE_CUSTOMER.name())).thenReturn(Optional.of(role));
         assertEquals(this.service.registerForCustomer(this.request), new MessageResponse(GeneralConstants.REGISTER_AUTH));
     }
 
     @Test
     void registerForCustomerRoleNotFound() {
-        when(this.userRepository.findByEmailOrNumberPhone(request.getEmail() ,request.getNumber())).thenReturn(Optional.empty());
+        when(this.userRepository.existsByEmailOrNumberPhone(request.getEmail() ,request.getNumber())).thenReturn(false);
         when(this.roleRepository.findByName(RoleNameEnum.ROLE_CUSTOMER.name())).thenReturn(Optional.empty());
         Throwable throwable =  assertThrows(Throwable.class, () -> this.service.registerForCustomer(request));
         assertEquals(BusinessException.class, throwable.getClass());
