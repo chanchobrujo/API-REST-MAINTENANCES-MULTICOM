@@ -1,5 +1,7 @@
 package com.proyectoagendador.multicom.security;
 
+import com.proyectoagendador.multicom.common.constants.SecurityConstants;
+import com.proyectoagendador.multicom.utils.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import com.proyectoagendador.multicom.common.properties.TokenProperties;
@@ -26,6 +28,8 @@ public class TokenProviderSecurity {
     }
 
     public String getValueDecrypt(String token){
+        token = token.replace(SecurityConstants.BEARER, "");
+        this.validateToken(token);
         return parser().setSigningKey(this.properties.getSecret()).parseClaimsJws(token).getBody().getSubject();
     }
 

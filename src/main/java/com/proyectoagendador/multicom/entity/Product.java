@@ -8,6 +8,8 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import static com.proyectoagendador.multicom.utils.GeneralUtil.generatedId;
+
 @Data
 @Entity
 @Table(name = "product")
@@ -38,7 +40,7 @@ class Product {
     private LocalDateTime createdDate;
 
     public Product(String name, String description, double price, Category category){
-        this.id = (String) UUID.randomUUID().toString().toUpperCase().subSequence(0, 4);
+        this.id = generatedId(4);
         this.price = BigDecimal.valueOf(price);
         this.state = true;
         this.name = name;

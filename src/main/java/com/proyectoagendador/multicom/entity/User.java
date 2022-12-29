@@ -9,6 +9,8 @@ import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import static com.proyectoagendador.multicom.utils.GeneralUtil.generatedId;
+
 @Data
 @Entity
 @Table(name = "user")
@@ -71,7 +73,7 @@ class User {
     public User(String firstName, String lastName, String numberPhone, String doc, String numberDoc, String email, Role role, String password) {
         this.documentType = doc;
         this.documentNumber = numberDoc;
-        this.id = (String) UUID.randomUUID().toString().toUpperCase().subSequence(0, 6);
+        this.id = generatedId(6);
         this.firstName = firstName;
         this.lastName = lastName;
         this.role = role;

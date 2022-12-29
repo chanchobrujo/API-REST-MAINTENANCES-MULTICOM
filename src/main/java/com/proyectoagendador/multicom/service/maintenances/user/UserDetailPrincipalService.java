@@ -1,4 +1,4 @@
-package com.proyectoagendador.multicom.service.maintenences.user;
+package com.proyectoagendador.multicom.service.maintenances.user;
 
 import com.proyectoagendador.multicom.exception.BusinessException;
 import com.proyectoagendador.multicom.mapper.UserMapper;

@@ -1,4 +1,4 @@
-package com.proyectoagendador.multicom;
+package com.proyectoagendador.multicom.service.authentication;
 
 import java.util.Optional;
 
@@ -10,11 +10,8 @@ import com.proyectoagendador.multicom.exception.BusinessException;
 import com.proyectoagendador.multicom.model.request.AuthRequest;
 import com.proyectoagendador.multicom.model.request.SingUpRequest;
 import com.proyectoagendador.multicom.model.response.MessageResponse;
-import com.proyectoagendador.multicom.repository.RoleRepository;
 import com.proyectoagendador.multicom.repository.UserRepository;
 import com.proyectoagendador.multicom.security.TokenProviderSecurity;
-import com.proyectoagendador.multicom.service.authentication.AuthService;
-import com.proyectoagendador.multicom.service.authentication.MailSenderService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -38,7 +35,7 @@ class AuthServiceTest {
     private final AuthRequest authRequest = new AuthRequest(request.getEmail(), "123");
 
     @Mock
-    private RoleRepository roleRepository;
+    private RoleService roleService;
 
     @Mock
     private UserRepository userRepository;
@@ -65,31 +62,21 @@ class AuthServiceTest {
 
     @Test
     void registerForCustomerExisting() {
-        User user = new User(request.getName(), request.getSurname(), request.getNumber(), request.getDocument(), request.getDocumentNumber(), request.getEmail(), null, "xfg");
-        when(this.userRepository.findByEmailOrNumberPhone(request.getEmail() ,request.getNumber())).thenReturn(Optional.of(user));
+        when(this.userRepository.existsByEmailOrNumberPhone(request.getEmail() ,request.getNumber())).thenReturn(true);
         assertEquals(this.service.registerForCustomer(this.request), new MessageResponse(GeneralConstants.DATA_REPEATED));
     }
     @Test
     void registerForDocumentCustomerExisting() {
-        User user = new User(request.getName(), request.getSurname(), request.getNumber(), request.getDocument(), request.getDocumentNumber(), request.getEmail(), null, "xfg");
-        when(this.userRepository.findByDocumentNumberAndDocumentType(request.getDocumentNumber() ,request.getDocument())).thenReturn(Optional.of(user));
+        when(this.userRepository.existsByDocumentTypeAndDocumentNumber(request.getDocumentNumber() ,request.getDocument())).thenReturn(true);
         assertEquals(this.service.registerForCustomer(this.request), new MessageResponse(GeneralConstants.DATA_REPEATED));
     }
 
     @Test
     void registerForCustomer() {
         Role role = new Role(RoleNameEnum.ROLE_CUSTOMER.name(), RoleNameEnum.ROLE_CUSTOMER.getValue());
-        when(this.userRepository.findByEmailOrNumberPhone(request.getEmail() ,request.getNumber())).thenReturn(Optional.empty());
-        when(this.roleRepository.findByName(RoleNameEnum.ROLE_CUSTOMER.name())).thenReturn(Optional.of(role));
+        when(this.userRepository.existsByEmailOrNumberPhone(request.getEmail() ,request.getNumber())).thenReturn(false);
+        when(this.roleService.findByName(RoleNameEnum.ROLE_CUSTOMER.name())).thenReturn(role);
         assertEquals(this.service.registerForCustomer(this.request), new MessageResponse(GeneralConstants.REGISTER_AUTH));
-    }
-
-    @Test
-    void registerForCustomerRoleNotFound() {
-        when(this.userRepository.findByEmailOrNumberPhone(request.getEmail() ,request.getNumber())).thenReturn(Optional.empty());
-        when(this.roleRepository.findByName(RoleNameEnum.ROLE_CUSTOMER.name())).thenReturn(Optional.empty());
-        Throwable throwable =  assertThrows(Throwable.class, () -> this.service.registerForCustomer(request));
-        assertEquals(BusinessException.class, throwable.getClass());
     }
 
     @Test
@@ -101,10 +88,24 @@ class AuthServiceTest {
     }
 
     @Test
+    void validatedToken() {
+        assertNotNull(this.service.validatedToken(""));
+    }
+
+    @Test
     void loginUserNotFound() {
         when(this.userRepository.findByEmail(request.getEmail())).thenReturn(Optional.empty());
-        Throwable throwable =  assertThrows(Throwable.class, () -> this.service.login(this.authRequest));
+        Throwable throwable = assertThrows(Throwable.class, () -> this.service.login(this.authRequest));
         assertEquals(BusinessException.class, throwable.getClass());
+    }
+
+    @Test
+    void registerCustomerForUser() {
+        this.request.setPassword(null);
+        Role role = new Role(RoleNameEnum.ROLE_CUSTOMER.name(), RoleNameEnum.ROLE_CUSTOMER.getValue());
+        when(this.userRepository.existsByEmailOrNumberPhone(request.getEmail() ,request.getNumber())).thenReturn(false);
+        when(this.roleService.findByName(RoleNameEnum.ROLE_CUSTOMER.name())).thenReturn(role);
+        assertEquals(this.service.registerForCustomer(this.request), new MessageResponse(GeneralConstants.REGISTER_AUTH));
     }
 }
 

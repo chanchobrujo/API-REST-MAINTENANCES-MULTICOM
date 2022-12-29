@@ -1,4 +1,4 @@
-package com.proyectoagendador.multicom.controller.maintenences;
+package com.proyectoagendador.multicom.controller.maintenances;
 
 import java.util.List;
 
@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import com.proyectoagendador.multicom.model.request.CategoryRequest;
 import com.proyectoagendador.multicom.model.response.MessageResponse;
 import com.proyectoagendador.multicom.model.response.CategoryResponse;
-import com.proyectoagendador.multicom.service.maintenences.CategoryService;
+import com.proyectoagendador.multicom.service.maintenances.CategoryService;
 
 import javax.validation.Valid;
 

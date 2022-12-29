@@ -1,4 +1,4 @@
-package com.proyectoagendador.multicom.service.maintenences;
+package com.proyectoagendador.multicom.service.maintenances;
 
 import java.util.List;
 import java.util.Objects;
@@ -37,7 +37,7 @@ class CategoryService {
 
     public
     MessageResponse update(String id, CategoryRequest request) {
-        Category category = this.repository.findById(parseInt(id)).orElseThrow(() -> new BusinessException(GeneralConstants.DATA_NOT_FOUND));
+        Category category = this.findById(parseInt(id));
         Category verify = this.repository.findByName(request.getName()).orElse(null);
         if (Objects.nonNull(verify) && !verify.getId().equals(category.getId())) {
             throw new BusinessException(GeneralConstants.DATA_REPEATED);

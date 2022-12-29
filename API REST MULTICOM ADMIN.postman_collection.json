@@ -1,0 +1,502 @@
+{
+	"info": {
+		"_postman_id": "f3197179-683b-4007-8de7-0c0f49ffbc5d",
+		"name": "API REST MULTICOM ADMIN",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "13762835"
+	},
+	"item": [
+		{
+			"name": "AUTH",
+			"item": [
+				{
+					"name": "SignIn generate token",
+					"item": [
+						{
+							"name": "SignIn customer 2",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"chanchobrujo@gmail.com\",\n    \"password\": \"F2928C9D\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8989/authentication/",
+									"host": [
+										"localhost"
+									],
+									"port": "8989",
+									"path": [
+										"authentication",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "SignIn customer 1",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"primoppp666@gmail.com\",\n    \"password\": \"123456\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8989/authentication/",
+									"host": [
+										"localhost"
+									],
+									"port": "8989",
+									"path": [
+										"authentication",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "SignIn admin",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"umb.kevsidorov@gmail.com\",\n    \"password\": \"123456\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8989/authentication/",
+									"host": [
+										"localhost"
+									],
+									"port": "8989",
+									"path": [
+										"authentication",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "SignUp",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"lupe\",\n    \"surname\": \"perez\",\n    \"document\": \"DNI\",\n    \"documentNumber\": \"72657668\",\n    \"number\": \"942475238\",\n    \"email\": \"primoppp666@gmail.com\",\n    \"password\": \"123456\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8989/authentication/register-customer",
+							"host": [
+								"localhost"
+							],
+							"port": "8989",
+							"path": [
+								"authentication",
+								"register-customer"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "ITEMS",
+			"item": [
+				{
+					"name": "CATEGORIES",
+					"item": [
+						{
+							"name": "Retrieve all",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8989/category/findAll?page=0&size=3",
+									"host": [
+										"localhost"
+									],
+									"port": "8989",
+									"path": [
+										"category",
+										"findAll"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "0"
+										},
+										{
+											"key": "size",
+											"value": "3"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve by param",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8989/category/findBy/id?value=4",
+									"host": [
+										"localhost"
+									],
+									"port": "8989",
+									"path": [
+										"category",
+										"findBy",
+										"id"
+									],
+									"query": [
+										{
+											"key": "value",
+											"value": "4"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Save",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1bWIua2V2c2lkb3JvdkBnbWFpbC5jb20iLCJpYXQiOjE2NzIxODEyMjksImV4cCI6MTY3MjE4NDgyOX0.szWijL_Zf8bfIzE966j8M85eLTqQz2htJ-UHSYRzh9qXYuTVoxLylzaBRM1N4ZR8BfeuCgZ9HCQQvAsj8j1gJA",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Prueba categoria 2\",\r\n    \"description\": \"fff\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8989/category/register",
+									"host": [
+										"localhost"
+									],
+									"port": "8989",
+									"path": [
+										"category",
+										"register"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJwcmltb3BwcDY2NkBnbWFpbC5jb20iLCJpYXQiOjE2NzIxNjA5ODUsImV4cCI6MTY3MjE2NDU4NX0.EfuD1P-FSTI22IMJSlPILid0GlG69bFzR8W1QOeqwfc9kv67-36XzA-WRlF7TJx8w7XUz-mjzZskvczQcT4sdQ",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"ggg\",\r\n    \"description\": \"fff\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8989/category/update?id=4",
+									"host": [
+										"localhost"
+									],
+									"port": "8989",
+									"path": [
+										"category",
+										"update"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "4"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Product",
+					"item": [
+						{
+							"name": "Retrieve all",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8989/product/findAll?page=0&size=3",
+									"host": [
+										"localhost"
+									],
+									"port": "8989",
+									"path": [
+										"product",
+										"findAll"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "0"
+										},
+										{
+											"key": "size",
+											"value": "3"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve by param",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8989/product/findById?value=D783",
+									"host": [
+										"localhost"
+									],
+									"port": "8989",
+									"path": [
+										"product",
+										"findById"
+									],
+									"query": [
+										{
+											"key": "value",
+											"value": "D783"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Save",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1bWIua2V2c2lkb3JvdkBnbWFpbC5jb20iLCJpYXQiOjE2NzIxODEyMjksImV4cCI6MTY3MjE4NDgyOX0.szWijL_Zf8bfIzE966j8M85eLTqQz2htJ-UHSYRzh9qXYuTVoxLylzaBRM1N4ZR8BfeuCgZ9HCQQvAsj8j1gJA",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Producto 6\",\r\n    \"description\": \"fff\",\r\n    \"cost\": 30.01,\r\n    \"categoryId\": 2\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8989/product/register",
+									"host": [
+										"localhost"
+									],
+									"port": "8989",
+									"path": [
+										"product",
+										"register"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1bWIua2V2c2lkb3JvdkBnbWFpbC5jb20iLCJpYXQiOjE2NzIxODEyMjksImV4cCI6MTY3MjE4NDgyOX0.szWijL_Zf8bfIzE966j8M85eLTqQz2htJ-UHSYRzh9qXYuTVoxLylzaBRM1N4ZR8BfeuCgZ9HCQQvAsj8j1gJA",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Producto OOOO test\",\r\n    \"description\": \"fff\",\r\n    \"cost\": 30.01,\r\n    \"categoryId\": 2\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8989/product/update?id=D783",
+									"host": [
+										"localhost"
+									],
+									"port": "8989",
+									"path": [
+										"product",
+										"update"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "D783"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "CUSTOMER",
+			"item": [
+				{
+					"name": "Retrieve all",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1bWIua2V2c2lkb3JvdkBnbWFpbC5jb20iLCJpYXQiOjE2NzIyNDM3MTEsImV4cCI6MTY3MjI0NzMxMX0.W7_r7Pu9WP61WS7sZdqMd6DKNzZr9nOAVZz6pekDBqlYacIRHfLPXdecymL_dipyeIZLbFSTKcgfpu3B_V-F-Q",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8989/customer/findAll?page=0&size=3",
+							"host": [
+								"localhost"
+							],
+							"port": "8989",
+							"path": [
+								"customer",
+								"findAll"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "3"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Save",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1bWIua2V2c2lkb3JvdkBnbWFpbC5jb20iLCJpYXQiOjE2NzIyNDM3MTEsImV4cCI6MTY3MjI0NzMxMX0.W7_r7Pu9WP61WS7sZdqMd6DKNzZr9nOAVZz6pekDBqlYacIRHfLPXdecymL_dipyeIZLbFSTKcgfpu3B_V-F-Q",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"usuario\",\r\n    \"surname\": \"prueba\",\r\n    \"document\": \"CEX\",\r\n    \"documentNumber\": \"00112256\",\r\n    \"number\": \"972413238\",\r\n    \"email\": \"chanchobrujo@gmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8989/customer/save",
+							"host": [
+								"localhost"
+							],
+							"port": "8989",
+							"path": [
+								"customer",
+								"save"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
