@@ -1,12 +1,10 @@
-package com.proyectoagendador.multicom.service.maintenences;
+package com.proyectoagendador.multicom.service.maintenances;
 
 import java.util.List;
 import java.util.Objects;
 import java.math.BigDecimal;
 
-import com.proyectoagendador.multicom.mapper.CategoryMapper;
 import com.proyectoagendador.multicom.mapper.ProductMapper;
-import com.proyectoagendador.multicom.model.response.CategoryResponse;
 import com.proyectoagendador.multicom.model.response.ProductResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -40,7 +38,7 @@ class ProductService {
     }
 
     public MessageResponse update(String id, ProductRequest request) {
-        Product product = this.repository.findById(id).orElseThrow(() -> new BusinessException(GeneralConstants.DATA_NOT_FOUND));
+        Product product = this.findByIdOriginal(id);
         Product verify = this.repository.findByName(request.getName()).orElse(null);
         if (Objects.nonNull(verify) && !verify.getId().equals(product.getId())) {
             throw new BusinessException(GeneralConstants.DATA_REPEATED);
@@ -59,7 +57,11 @@ class ProductService {
     }
 
     public ProductResponse findById(String id) {
-        return this.repository.findById(id).map(ProductMapper::mapperResponse).orElseThrow(() -> new BusinessException(GeneralConstants.DATA_NOT_FOUND));
+        return ProductMapper.mapperResponse(this.findByIdOriginal(id));
+    }
+
+    private Product findByIdOriginal(String id) {
+        return this.repository.findById(id).orElseThrow(() -> new BusinessException(GeneralConstants.DATA_NOT_FOUND));
     }
 
     private MessageResponse save(Product product) {

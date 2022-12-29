@@ -9,6 +9,8 @@ import static com.proyectoagendador.multicom.utils.GeneralUtil.mapper;
 public
 class CategoryMapper {
 
+    private CategoryMapper() {}
+
     public static CategoryResponse mapperResponse(Category category) {
         CategoryResponse response = mapper(CategoryResponse.class, category);
         response.setDate(DateUtil.formatterDate(category.getCreatedDate()));
